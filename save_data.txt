@@ -1,0 +1,1 @@
+["'Wait for Mother'", "'Wash the Dishes'", "'Drink Daily Tea']\n", 'Drink Daily Tea', "'Eat Veggies'", "'Program Two Hours'", 'Take Out The Trash', 'Eat Sweets', 'Eat Veggies', 'Wash the Dishes', "'Take Out The Trash'", 'Wait for Mother', 'Program Two Hours']
