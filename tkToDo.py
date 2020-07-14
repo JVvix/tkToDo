@@ -1,6 +1,7 @@
 from tkinter import *
 import random
 import os
+import json
 
 
 def update_listbox():
@@ -14,8 +15,8 @@ def clear_listbox():
 def add_task():
     global tasks
 
-    tasks.append(txt_input.get())
-    tasks = set(tasks)
+    tasks.append("'" + txt_input.get() + "'")
+    # tasks = set(tasks)
     update_listbox()
     tasks = list(tasks)
 
@@ -67,7 +68,7 @@ def exit():
 
 filesize = os.path.getsize("save_data.txt")
 
-random_tasks = ["Program Two Hours", "Wash the Dishes", "Take Out The Trash", "Drink Daily Tea", "Wait for Mother", "Eat Sweets", "Eat Veggies"]
+random_tasks = ["'Program Two Hours'", "'Wash the Dishes'", "'Take Out The Trash'", "'Drink Daily Tea'", "'Wait for Mother'", "'Eat Sweets'", "'Eat Veggies'"]
 
 if filesize == 0:
     tasks = []
@@ -129,5 +130,7 @@ button_exit.grid(row=14, column=4)
 
 lb_tasks = Listbox(root)
 lb_tasks.grid(row=15, column=4)
+for item in range(len(tasks)):
+    lb_tasks.insert(END, tasks[item])
 
 root.mainloop()
