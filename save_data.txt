@@ -1,1 +1,1 @@
-["'Wait for Mother'", "'Program Two Hours'", "'Eat Veggies'", "'Take Out The Trash'", "'Drink Daily Tea'", "'Eat Sweets'"]
+["'hello'", "'world'"]

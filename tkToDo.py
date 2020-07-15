@@ -15,7 +15,7 @@ def clear_listbox():
 def add_task():
     global tasks
 
-    tasks.append("'" + txt_input.get() + "'")
+    tasks.append('' + txt_input.get() + '')
     # tasks = set(tasks)
     update_listbox()
     tasks = list(tasks)
@@ -27,7 +27,7 @@ def delete_all():
     update_listbox()
 
 def delete_task():
-    del tasks[int(delete_input.get())-4]
+    del tasks[int(delete_input.get())-1]
     update_listbox()
 
 def sort_asc():
@@ -39,25 +39,6 @@ def sort_desc():
     tasks.reverse()
     update_listbox()
 
-def choose_random_task():
-    global tasks
-
-    tasks.append(random.choice(random_tasks))
-    tasks = set(tasks)
-    update_listbox()
-    tasks = list(tasks)
-
-def check_number_of_tasks():
-    global tasks
-
-    tasks_length = len(tasks)
-    number_of_tasks = Label(root, text=str(len(tasks)))
-    number_of_tasks.grid(row=16, column=4)
-    if tasks_length != len(tasks):
-        number_of_tasks = Label(root, text=str(len(tasks)))
-        number_of_tasks.grid(row=16, column=4)
-    
-
 def exit():
     f = open("save_data.txt", "w")
     f.write(str(tasks))
@@ -68,14 +49,19 @@ def exit():
 
 filesize = os.path.getsize("save_data.txt")
 
-random_tasks = ["'Program Two Hours'", "'Wash the Dishes'", "'Take Out The Trash'", "'Drink Daily Tea'", "'Wait for Mother'", "'Eat Sweets'", "'Eat Veggies'"]
+random_tasks = ['Program Two Hours', 'Wash the Dishes', 'Take Out The Trash', 'Drink Daily Tea', 'Wait for Mother', 'Eat Sweets', 'Eat Veggies']
 
 if filesize == 0:
     tasks = []
 else:
     f = open("save_data.txt", "r")
     text = f.read()
-    tasks = text.strip('][').split(', ')
+    tasks = text.strip('][').split(", ")
+    for i in range(len(tasks)):
+        print(tasks[i])
+        tasks[i] = tasks[i].replace("'", "")
+        tasks[i] = tasks[i].replace(""" " """, """""")
+        print(tasks[i])
     f.close()
 
 root = Tk()
@@ -118,12 +104,6 @@ button_sort_asc.grid(row=10, column=4)
 
 button_sort_desc = Button(root, text="Sort List (DESC)",fg="green", bg="white", command=sort_desc)
 button_sort_desc.grid(row=11, column=4)
-
-button_choose_random = Button(root, text="Add Random Task",fg="green", bg="white", command=choose_random_task)
-button_choose_random.grid(row=12, column=4)
-
-button_number_of_tasks = Button(root, text="Number of Tasks",fg="green", bg="white", command=check_number_of_tasks)
-button_number_of_tasks.grid(row=13, column=4)
 
 button_exit = Button(root, text="Exit Program",fg="green", bg="white", command=exit)
 button_exit.grid(row=14, column=4)
