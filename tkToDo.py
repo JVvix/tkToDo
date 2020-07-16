@@ -3,114 +3,71 @@ import random
 import os
 import json
 
+location = 3
 
-def update_listbox():
-    clear_listbox()
-    for task in tasks:
-        lb_tasks.insert("end", task)
+def makeNew(name):
+    global location
+    name2 = name
+    name = exec("%s = %d" % (name, 2))
+    name = Checkbutton(root, text=name2).grid(row=location, column=0)
 
-def clear_listbox():
-    lb_tasks.delete(0, "end")
+def update_screen():
+    global location
+    for i in range(len(tasks)):
+        if tasks[i] != "":
+            location += 1
+            makeNew(tasks[i])
 
 def add_task():
-    global tasks
+    global tasks, location
+    tasks.append(newTask.get())
+    update_screen()
 
-    tasks.append('' + txt_input.get() + '')
-    # tasks = set(tasks)
-    update_listbox()
-    tasks = list(tasks)
+# def delete_all():
+#     global tasks, location
+    
+#     location = 3
 
-def delete_all():
-    global tasks
+# def delete_task():
+#     tasks = tasks[:-1]
+#     update_screen()
 
-    tasks = []
-    update_listbox()
-
-def delete_task():
-    del tasks[int(delete_input.get())-1]
-    update_listbox()
-
-def sort_asc():
-    tasks.sort()
-    update_listbox()
-
-def sort_desc():
-    tasks.sort()
-    tasks.reverse()
-    update_listbox()
-
-def exit():
+def save():
     f = open("save_data.txt", "w")
-    f.write(str(tasks))
-    f.close()
+    f.write(tasks)
     root.destroy()
 
-### program starts ###
+# ### program starts ###
 
-filesize = os.path.getsize("save_data.txt")
+f = open("save_data.txt", "r")
+text = f.read()
 
-random_tasks = ['Program Two Hours', 'Wash the Dishes', 'Take Out The Trash', 'Drink Daily Tea', 'Wait for Mother', 'Eat Sweets', 'Eat Veggies']
-
-if filesize == 0:
+if len(text) == 0:
     tasks = []
 else:
-    f = open("save_data.txt", "r")
-    text = f.read()
     tasks = text.strip('][').split(", ")
     for i in range(len(tasks)):
-        print(tasks[i])
         tasks[i] = tasks[i].replace("'", "")
-        tasks[i] = tasks[i].replace(""" " """, """""")
-        print(tasks[i])
     f.close()
 
+print(tasks)
+
 root = Tk()
-root.configure(bg="white")
 root.title("My To-Do List")
-root.geometry("360x520")
+root.geometry("260x220")
 
-lb_tasks = Listbox(root)
-lb_tasks.grid(row=15, column=4)
+lbl_title = Label(root, text="To Do List").grid(row=1, column=0)
 
-lbl_title = Label(root, text="To Do List", bg="white")
-lbl_title.grid(row=1, column=4)
+placeholder = Label(root, text="").grid(row=2, column=0)
 
-lbl_display = Label(root, text="", bg="white")
-lbl_display.grid(row=2, column=4)
+newTask = Entry(root)
+newTask.grid(row=3, column=0)
 
-add_label = Label(root, text="Add A Task", bg="white")
-add_label.grid(row=3, column=4)
+add_button = Button(root, text="Add task", command=add_task).grid(row=3, column=5)
+# delete_all_button = Button(root, text="Delete all tasks", command=delete_all).grid(row=4, column=5)
+# delete_button = Button(root, text="Delete last task", command=delete_task).grid(row=5, column=5)
+# exit_button = Button(root, text="Exit", command=save).grid(row=6, column=5)
 
-txt_input = Entry(root, width=15)
-txt_input.grid(row=4, column=4)
-
-delete_label = Label(root, text="Delete A Task", bg="white")
-delete_label.grid(row=5, column=4)
-
-delete_input = Entry(root, width=15)
-delete_input.grid(row=6, column=4)
-
-button_add_task = Button(root, text="Add Task",fg="green", bg="white", command=add_task)
-button_add_task.grid(row=7, column=4)
-
-button_delete_all = Button(root, text="Delete All Tasks",fg="green", bg="white", command=delete_all)
-button_delete_all.grid(row=8, column=4)
-
-button_delete_one = Button(root, text="Delete",fg="green", bg="white", command=delete_task)
-button_delete_one.grid(row=9, column=4)
-
-button_sort_asc = Button(root, text="Sort List (ASC)",fg="green", bg="white", command=sort_asc)
-button_sort_asc.grid(row=10, column=4)
-
-button_sort_desc = Button(root, text="Sort List (DESC)",fg="green", bg="white", command=sort_desc)
-button_sort_desc.grid(row=11, column=4)
-
-button_exit = Button(root, text="Exit Program",fg="green", bg="white", command=exit)
-button_exit.grid(row=14, column=4)
-
-lb_tasks = Listbox(root)
-lb_tasks.grid(row=15, column=4)
-for item in range(len(tasks)):
-    lb_tasks.insert(END, tasks[item])
-
+root.protocol("WM_DELETE_WINDOW", save)
+# root.after(2, update_screen)
 root.mainloop()
