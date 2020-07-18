@@ -4,6 +4,7 @@ import os
 import json
 
 location = 5
+task_number = 1
 
 def save_and_quit():
     f = open("save_data.txt", "w")
@@ -11,27 +12,29 @@ def save_and_quit():
     f.close()
     root.destroy()
 
-def save():
-    f = open("save_data.txt", "w")
-    f.write(str(tasks))
-    f.close()
-
 def add_task():
-    global location
+    global location, task_frame, task_frame2
     taskName = newTask.get()
     tasks.append(taskName)
-    word = Checkbutton(task_frame, text=str(taskName)).grid(row=location, column=0)
+    if bool(task_frame.winfo_exists()) == False: 
+        task_frame2 = Frame(root).grid(row=4)
+        location = 5
+        word = Checkbutton(task_frame2, text=str(taskName)).grid(row=location, column=0)
+    else:
+        word = Checkbutton(task_frame, text=str(taskName)).grid(row=location, column=0)
     location += 1
 
 def add_saved_task(taskName):
     global location
-    word = Checkbutton(task_frame, text=taskName).grid(row=location, column=0)
-    location += 1
+    if taskName != "":
+        word = Checkbutton(task_frame, text=taskName).grid(row=location, column=0)
+        location += 1
 
 def delete_all():
-    global tasks
+    global tasks, task_frame, task_frame2, location
     tasks = []
-    task_frame.grid_forget()
+    task_frame.destroy()
+    location = 5
 
 ### program starts ### 
 root = Tk()
@@ -63,8 +66,5 @@ newTask.grid(row=3, column=0)
 
 add_button = Button(root, text="Add task", command=add_task).grid(row=3, column=5)
 delete_all_button = Button(root, text="Delete all tasks", command=delete_all).grid(row=4, column=5)
-save_button = Button(root, text="Save", command=save).grid(row=5, column=5)
-save_and_quit_button = Button(root, text="Save and Exit", command=save_and_quit).grid(row=6, column=5)
-
 root.protocol("WM_DELETE_WINDOW", save_and_quit)
 root.mainloop()
