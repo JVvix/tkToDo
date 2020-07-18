@@ -7,7 +7,7 @@ location = 5
 task_number = 1
 
 def save_and_quit():
-    f = open("save_data.txt", "w")
+    f = open("C:\\Users\\fly\\src\\tkToDo\\save_data.txt", "w")
     f.write(str(tasks))
     f.close()
     root.destroy()
@@ -43,7 +43,7 @@ root.geometry("260x220")
 
 task_frame = Frame(root)
 task_frame.grid(row=4)
-f = open("save_data.txt", "r")
+f = open("C:\\Users\\fly\\src\\tkToDo\\save_data.txt", "r")
 text = f.read()
 
 if len(text) == 0:
