@@ -137,8 +137,7 @@ class Ui_MainWindow(object):
         self.pushButton.clicked.connect(self.addTask)
 
     def addTask(self):
-        if self.checkBox == "":
-            self.checkBox.setText(lineEdit)
+        self.checkBox.setText(self.lineEdit.text())
 
 if __name__ == "__main__":
     import sys
